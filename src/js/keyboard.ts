@@ -4,11 +4,20 @@ import {
   anyOverlayOpen,
   closeTopOverlay,
   openProjectModal,
+  toast,
   togglePalette,
   toggleShortcuts,
 } from './overlays';
 
 const TYPING = new Set(['INPUT', 'TEXTAREA', 'SELECT']);
+
+const SECTION_LABELS: Record<string, string> = {
+  top: 'Home',
+  lab: 'The Lab',
+  experiments: 'Experiments',
+  research: 'Research',
+  contact: 'Contact',
+};
 
 function isTyping(el: EventTarget | null): boolean {
   const n = el as HTMLElement | null;
@@ -60,6 +69,7 @@ export function initKeyboard(): void {
       const id = SECTIONS[Number(e.key) - 1];
       if (id) {
         scrollToSection(id);
+        toast(`→ ${SECTION_LABELS[id] ?? id}`);
         e.preventDefault();
       }
       return;
@@ -68,6 +78,7 @@ export function initKeyboard(): void {
       const idx = currentSectionIndex();
       const next = e.key === 'j' ? Math.min(idx + 1, SECTIONS.length - 1) : Math.max(idx - 1, 0);
       scrollToSection(SECTIONS[next]);
+      toast(`→ ${SECTION_LABELS[SECTIONS[next]]}`);
       e.preventDefault();
       return;
     }
@@ -78,6 +89,7 @@ export function initKeyboard(): void {
       if (!eggArmed && buf === 'glass') {
         eggArmed = true;
         window.dispatchEvent(new CustomEvent('bq:energy'));
+        toast('🧪 glass mode engaged');
         setTimeout(() => (eggArmed = false), 4000);
         buf = '';
       }

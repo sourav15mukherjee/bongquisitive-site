@@ -184,6 +184,7 @@ kbd {
 .section {
   position: relative;
   padding: clamp(72px, 11vh, 130px) 0;
+  scroll-margin-top: 76px;
 }
 
 .section-head {

@@ -22,6 +22,7 @@ uniform float uTime;
 uniform vec4 uBlobs[NB];      // xy center (px, origin bottom-left), z radius, w unused
 uniform vec2 uPointer;        // px
 uniform float uPointerAct;    // 0..1
+uniform float uEnergy;        // 0..1.5 glass-mode burst
 uniform vec4 uRipples[NR];    // xy center, z start time, w speed
 uniform sampler2D uText;
 uniform vec3 uTextBox;        // xy bottom-left (px), z = 1/scale (backing px per texture px)
@@ -113,7 +114,8 @@ void main() {
 
   col = mix(col, col * 0.90 + tint * 0.045, body * 0.9);
   col += mix(tint, vec3(0.85, 0.95, 1.0), 0.35) * fres * rim * 0.95;
-  col += vec3(0.95) * spec * body * (0.55 + 0.45 * uPointerAct);
+  col += vec3(0.95) * spec * body * (0.55 + 0.45 * uPointerAct + 0.9 * uEnergy);
+  col += vec3(0.55, 1.0, 0.88) * uEnergy * 0.05 * (0.5 + 0.5 * sin(uTime * 5.0 + uv.y * 14.0));
   col += tint * halo * (1.0 - body) * 0.13;
 
   // ripple shimmer
@@ -253,7 +255,8 @@ export function initHero(): void {
     const data = new Float32Array(NB * 4);
     const R = min * dpr;
     const time = t * 0.001;
-    const speedBoost = 1 + energy * 1.6;
+    const speedBoost = 1 + energy * 3.2;
+    const ampBoost = 1 + energy * 0.9;
 
     for (let i = 0; i < NB; i++) {
       const b = blobs[i];
@@ -263,8 +266,8 @@ export function initHero(): void {
         tx = pointer.x * dpr;
         ty = (H - pointer.y * dpr);
       } else {
-        tx = (b.ax + Math.sin(time * b.fx * speedBoost + b.phx) * b.amp) * W;
-        ty = (b.ay + Math.cos(time * b.fy * speedBoost + b.phy) * b.amp * 0.8) * H;
+        tx = (b.ax + Math.sin(time * b.fx * speedBoost + b.phx) * b.amp * ampBoost) * W;
+        ty = (b.ay + Math.cos(time * b.fy * speedBoost + b.phy) * b.amp * 0.8 * ampBoost) * H;
         // gentle attraction to pointer when nearby
         const dx = pointer.x * dpr - tx;
         const dy = H - pointer.y * dpr - ty;
@@ -282,7 +285,7 @@ export function initHero(): void {
       b.x += b.vx;
       b.y += b.vy;
 
-      const rBase = b.r * R * (1 + energy * 0.35 * Math.sin(time * 6 + i));
+      const rBase = b.r * R * (1 + energy * 0.5 * Math.sin(time * 6 + i));
       data[i * 4] = b.x;
       data[i * 4 + 1] = b.y;
       data[i * 4 + 2] = Math.max(20, rBase);
@@ -292,6 +295,7 @@ export function initHero(): void {
     prog!.setFloat('uTime', time);
     prog!.setVec2('uPointer', pointer.x * dpr, H - pointer.y * dpr);
     prog!.setFloat('uPointerAct', pointer.act);
+    prog!.setFloat('uEnergy', energy);
     prog!.setVec4Array('uRipples', ripples);
   }
 
@@ -301,7 +305,7 @@ export function initHero(): void {
     prog!.gl.drawArrays(prog!.gl.TRIANGLES, 0, 3);
     // decay transient values
     pointer.act *= 0.94;
-    energy *= 0.965;
+    energy *= 0.982;
     raf = requestAnimationFrame(frame);
   }
 
@@ -403,7 +407,13 @@ export function initHero(): void {
 
   // easter egg: typing "glass" energizes the blobs (exposed for keyboard.ts)
   window.addEventListener('bq:energy', () => {
-    energy = 1;
+    energy = 1.4;
+    // ring burst from the center of the hero
+    const i = (rippleIdx++ % 4) * 4;
+    ripples[i] = W / 2;
+    ripples[i + 1] = H / 2;
+    ripples[i + 2] = performance.now() * 0.001;
+    ripples[i + 3] = 1400 * dpr;
     if (!running && !reduced) play();
   });
 }
