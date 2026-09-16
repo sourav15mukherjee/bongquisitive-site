@@ -1,0 +1,22 @@
+{
+  "name": "bongquisitive-site",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Bongquisitive — independent research & design lab. Liquid-glass, keyboard-first site.",
+  "scripts": {
+    "dev": "vite",
+    "prebuild": "node scripts/build-legal.mjs",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.2.5",
+    "@fontsource-variable/jetbrains-mono": "^5.2.5",
+    "@fontsource-variable/space-grotesk": "^5.2.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  }
+}

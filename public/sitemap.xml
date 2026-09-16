@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- TODO: replace bongquisitive.com with the real production domain if different -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://bongquisitive.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://bongquisitive.com/contact.html</loc><priority>0.6</priority></url>
+  <url><loc>https://bongquisitive.com/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bongquisitive.com/terms.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bongquisitive.com/refunds.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bongquisitive.com/cookies.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bongquisitive.com/dmca.html</loc><priority>0.3</priority></url>
+  <url><loc>https://bongquisitive.com/disclosures.html</loc><priority>0.3</priority></url>
+</urlset>

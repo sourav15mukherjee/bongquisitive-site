@@ -1,0 +1,168 @@
+/* Hero: full-viewport WebGL liquid-glass */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* CSS fallback when WebGL is unavailable */
+.hero-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: none;
+  overflow: hidden;
+}
+
+.hero.no-webgl .hero-fallback {
+  display: block;
+}
+
+.hero-fallback i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+}
+
+.hero-fallback i:nth-child(1) {
+  width: 44vw;
+  height: 44vw;
+  left: 6%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(124, 198, 255, 0.5), transparent 65%);
+  animation: drift-a 16s ease-in-out infinite alternate;
+}
+
+.hero-fallback i:nth-child(2) {
+  width: 36vw;
+  height: 36vw;
+  right: 8%;
+  top: 40%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.4), transparent 65%);
+  animation: drift-b 19s ease-in-out infinite alternate;
+}
+
+.hero-fallback i:nth-child(3) {
+  width: 26vw;
+  height: 26vw;
+  left: 38%;
+  bottom: 6%;
+  background: radial-gradient(circle, rgba(137, 255, 221, 0.32), transparent 65%);
+  animation: drift-a 22s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift-a {
+  to {
+    transform: translate(9vw, -6vh) scale(1.15);
+  }
+}
+
+@keyframes drift-b {
+  to {
+    transform: translate(-7vw, 7vh) scale(0.9);
+  }
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(50px, 9.6vw, 116px);
+  font-weight: 700;
+  letter-spacing: -0.028em;
+  line-height: 1.02;
+  margin: 18px 0 20px;
+  background: linear-gradient(180deg, #f4faff 30%, #a8d8ff 78%, #7cc6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* when the canvas owns the wordmark, hide the DOM copy visually (kept for a11y/SEO) */
+.hero.webgl-on .hero-title {
+  color: transparent;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero-sub {
+  max-width: 54ch;
+  margin: 0 auto 34px;
+  color: var(--ink-mid);
+  font-size: clamp(15.5px, 1.7vw, 18px);
+  line-height: 1.75;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10.5px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink-low);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(180deg, var(--ink-faint), transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, var(--mint), transparent);
+  animation: scroll-beam 2.2s ease-in-out infinite;
+}
+
+@keyframes scroll-beam {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-line::after,
+  .hero-fallback i {
+    animation: none;
+  }
+}
