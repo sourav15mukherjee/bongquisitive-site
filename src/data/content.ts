@@ -52,6 +52,18 @@ export const PROJECTS: Project[] = [
       { label: 'Free skills ↗', url: 'https://github.com/sourav15mukherjee/skillforge-free-skills' },
     ],
   },
+  {
+    id: 'flux-wing',
+    name: 'Flux Wing',
+    badge: 'Vanilla Canvas Arcade · PWA',
+    short: 'Gravity-shift cyber arcade. Flip polarity mid-flight, dilate time, pilot blackout sectors blind — pure Canvas + Web Audio, zero dependencies.',
+    long: 'Flux Wing is a high-octane gravity-inversion arcade built on pure HTML5 Canvas and the Web Audio API — no frameworks, no image files, no audio files, no dependencies. One tap keeps you airborne while green gates invert gravity, purple gates plunge the sector into a 9.5-second blackout lit only by your flashlight cone, red portals teleport you across the screen, and Shift bends time by 30% when the maze gets impossible. Every sound — flaps, lasers, orb chimes, explosions — is synthesized live in the browser. Installable as a PWA and playable offline.',
+    pills: ['Gravity Inversion', 'Chrono Dilation', 'Lights-Out Mode', 'Portals & Mazes', '100% Procedural Audio'],
+    links: [
+      { label: 'Play Flux Wing', url: 'https://sourav15mukherjee.github.io/flux-wing/', primary: true },
+      { label: 'Source ↗', url: 'https://github.com/sourav15mukherjee/flux-wing' },
+    ],
+  },
 ];
 
 export interface ResearchEntry {
